@@ -1,15 +1,14 @@
-
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/14.
  */
 public class StringSchemaArg extends SchemaArg {
-    public StringSchemaArg(String flag) {
-        super(flag, "string", "");
+    public StringSchemaArg(String flag, Object value) {
+        super(flag, "string", value);
     }
 
     @Override
-    public Object convert(String value) {
+    protected Object convertValue(String value) {
         return value;
     }
 }

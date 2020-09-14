@@ -1,116 +1,94 @@
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/13.
  */
 class SchemaTest {
 
-    @Test
-    void should_convert_integer_arg_success() {
-        SchemaArg schemaArg = new IntegerSchemaArg("l");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("l", "8080"));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg = parsedArgList.get(0);
-        assertThat(parsedArg.getType()).isEqualTo("integer");
-        assertThat(parsedArg.getValue()).isEqualTo(8080);
+    private Schema schema;
+
+    @BeforeEach
+    void setUp() {
+        schema = ArgsDataBuilder.givenSchema();
     }
 
     @Test
-    void should_convert_integer_arg_without_value_success() {
-        SchemaArg schemaArg = new IntegerSchemaArg("l");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("l", ""));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg = parsedArgList.get(0);
-        assertThat(parsedArg.getType()).isEqualTo("integer");
-        assertThat(parsedArg.getValue()).isEqualTo(0);
-    }
-
-    @Test
-    void should_convert_boolean_arg_success() {
-        SchemaArg schemaArg = new BooleanSchemaArg("l");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("l", "true"));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg = parsedArgList.get(0);
-        assertThat(parsedArg.getType()).isEqualTo("boolean");
-        assertThat(parsedArg.getValue()).isEqualTo(true);
-    }
-
-    @Test
-    void should_convert_boolean_arg_without_value_success() {
-        SchemaArg schemaArg = new BooleanSchemaArg("l");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("l", ""));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg = parsedArgList.get(0);
-        assertThat(parsedArg.getType()).isEqualTo("boolean");
+    void should_parse_boolean_arg_with_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("l", "false"));
+        assertThat(parsedArg.getFlag()).isEqualTo("l");
         assertThat(parsedArg.getValue()).isEqualTo(false);
+        assertThat(parsedArg.getType()).isEqualTo("boolean");
     }
 
     @Test
-    void should_convert_string_arg_success() {
-        SchemaArg schemaArg = new StringSchemaArg("d");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("d", "/usr/logs"));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg = parsedArgList.get(0);
-        assertThat(parsedArg.getType()).isEqualTo("string");
+    void should_parse_integer_arg_with_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("p", "8080"));
+        assertThat(parsedArg.getFlag()).isEqualTo("p");
+        assertThat(parsedArg.getValue()).isEqualTo(8080);
+        assertThat(parsedArg.getType()).isEqualTo("integer");
+    }
+
+    @Test
+    void should_parse_string_arg_with_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("d", "/usr/logs"));
+        assertThat(parsedArg.getFlag()).isEqualTo("d");
         assertThat(parsedArg.getValue()).isEqualTo("/usr/logs");
-    }
-
-    @Test
-    void should_convert_string_arg_without_value_success() {
-        SchemaArg schemaArg = new StringSchemaArg("d");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("d", ""));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg = parsedArgList.get(0);
         assertThat(parsedArg.getType()).isEqualTo("string");
+    }
+
+    @Test
+    void should_parse_boolean_arg_without_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("l", ""));
+        assertThat(parsedArg.getFlag()).isEqualTo("l");
+        assertThat(parsedArg.getValue()).isEqualTo(true);
+        assertThat(parsedArg.getType()).isEqualTo("boolean");
+    }
+
+    @Test
+    void should_parse_integer_arg_without_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("p", ""));
+        assertThat(parsedArg.getFlag()).isEqualTo("p");
+        assertThat(parsedArg.getValue()).isEqualTo(0);
+        assertThat(parsedArg.getType()).isEqualTo("integer");
+    }
+
+    @Test
+    void should_parse_string_arg_without_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("d", ""));
+        assertThat(parsedArg.getFlag()).isEqualTo("d");
         assertThat(parsedArg.getValue()).isEqualTo("");
+        assertThat(parsedArg.getType()).isEqualTo("string");
     }
 
     @Test
-    void should_convert_multiple_arg_success() {
-        SchemaArg schemaArg1 = new IntegerSchemaArg("p");
-        SchemaArg schemaArg2 = new BooleanSchemaArg("l");
-        SchemaArg schemaArg3 = new StringSchemaArg("d");
-        Schema schema = new Schema(Arrays.asList(schemaArg1, schemaArg2, schemaArg3));
-
-        List<ParsingArg> parsingArgList = Arrays.asList(new ParsingArg("l", "")
-                , new ParsingArg("d", "/usr/logs")
-                , new ParsingArg("p", "8080"));
-        List<ParsedArg> parsedArgList = schema.convert(parsingArgList);
-        ParsedArg parsedArg1 = parsedArgList.get(0);
-        assertThat(parsedArg1.getFlag()).isEqualTo("l");
-        assertThat(parsedArg1.getType()).isEqualTo("boolean");
-        assertThat(parsedArg1.getValue()).isEqualTo(false);
-
-        ParsedArg parsedArg2 = parsedArgList.get(1);
-        assertThat(parsedArg2.getFlag()).isEqualTo("d");
-        assertThat(parsedArg2.getType()).isEqualTo("string");
-        assertThat(parsedArg2.getValue()).isEqualTo("/usr/logs");
-
-        ParsedArg parsedArg3 = parsedArgList.get(2);
-        assertThat(parsedArg3.getFlag()).isEqualTo("p");
-        assertThat(parsedArg3.getType()).isEqualTo("integer");
-        assertThat(parsedArg3.getValue()).isEqualTo(8080);
+    void should_parse_stringArray_arg_with_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("g", "this,is,a,list"));
+        assertThat(parsedArg.getFlag()).isEqualTo("g");
+        assertThat(parsedArg.getValue()).isEqualTo(Arrays.asList("this", "is", "a", "list"));
+        assertThat(parsedArg.getType()).isEqualTo("stringArray");
     }
 
     @Test
-    void should_throw_exception_when_parsing_arg_is_not_in_schema() {
-        SchemaArg schemaArg = new StringSchemaArg("d");
-        Schema schema = new Schema(Collections.singletonList(schemaArg));
-        List<ParsingArg> parsingArgList = Collections.singletonList(new ParsingArg("p", "8080"));
-        Assertions.assertThrows(ParsingArgNotExistInSchemaException.class, () -> schema.convert(parsingArgList), "输入参数与参数结构不匹配");
+    void should_parse_stringArray_arg_without_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("g", ""));
+        assertThat(parsedArg.getFlag()).isEqualTo("g");
+        assertThat(parsedArg.getValue()).isEqualTo(new ArrayList<String>());
+        assertThat(parsedArg.getType()).isEqualTo("stringArray");
     }
+
+    @Test
+    void should_parse_integerArray_arg_with_value() {
+        ParsedArg parsedArg = schema.parse(new Arg("h", "1,2,-3,5"));
+        assertThat(parsedArg.getFlag()).isEqualTo("h");
+        assertThat(parsedArg.getValue()).isEqualTo(Arrays.asList(1, 2, -3, 5));
+        assertThat(parsedArg.getType()).isEqualTo("integerArray");
+    }
+
 }

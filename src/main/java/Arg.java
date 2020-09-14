@@ -1,13 +1,12 @@
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/13.
  */
-public class ParsingArg {
+public class Arg {
     private String flag;
     private String value;
 
-    ParsingArg(String flag, String value) {
-
+    public Arg(String flag, String value) {
         this.flag = flag;
         this.value = value;
     }

@@ -3,46 +3,30 @@ import java.util.List;
 
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/13.
  */
 public class Parser {
-
-    private List<ParsedArg> parsedArgList;
     private Schema schema;
+    private List<ParsedArg> parsedArgList = new ArrayList<>();
 
     public Parser(Schema schema) {
-
         this.schema = schema;
     }
 
-    public void parse(String[] args) {
-        List<ParsingArg> paringArgList = parseArgs(args);
-        parsedArgList = schema.convert(paringArgList);
+    public void parse(String args) {
+        List<Arg> argList = ArgsSeparator.separate(args);
+        argList.forEach(this::parseArg);
     }
 
-    public List<ParsingArg> parseArgs(String[] args) {
-        List<ParsingArg> parsingArgList = new ArrayList<>();
-        for (int i = 0; i < args.length; i++) {
-            parseArg(args, parsingArgList, i);
-        }
-        return parsingArgList;
-    }
-
-    private void parseArg(String[] args, List<ParsingArg> parsingArgList, int i) {
-        if (args[i].startsWith("-")) {
-            if (hasNoValue(args, i)) {
-                parsingArgList.add(new ParsingArg(args[i].substring(1), ""));
-            } else {
-                parsingArgList.add(new ParsingArg(args[i].substring(1), args[i + 1]));
-            }
-        }
-    }
-
-    private boolean hasNoValue(String[] args, int i) {
-        return i + 1 >= args.length || args[i + 1].startsWith("-");
+    private void parseArg(Arg arg) {
+        ParsedArg parsedArg = schema.parse(arg);
+        parsedArgList.add(parsedArg);
     }
 
     public ParsedArg getArg(String flag) {
-        return parsedArgList.stream().filter(arg -> arg.getFlag().equals(flag)).findFirst().get();
+        return parsedArgList.stream()
+                .filter(item -> item.getFlag().equals(flag))
+                .findFirst()
+                .get();
     }
 }

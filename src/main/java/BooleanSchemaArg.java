@@ -1,14 +1,15 @@
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/14.
  */
 public class BooleanSchemaArg extends SchemaArg {
-    public BooleanSchemaArg(String flag) {
-        super(flag, "boolean", false);
+    public BooleanSchemaArg(String flag, Object value) {
+        super(flag, "boolean", value);
     }
 
     @Override
-    public Object convert(String value) {
+    protected Object convertValue(String value) {
         return Boolean.parseBoolean(value);
     }
+
 }

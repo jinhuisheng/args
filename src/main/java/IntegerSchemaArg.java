@@ -1,15 +1,14 @@
-
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/14.
  */
 public class IntegerSchemaArg extends SchemaArg {
-    public IntegerSchemaArg(String flag) {
-        super(flag, "integer", 0);
+    public IntegerSchemaArg(String flag, Object value) {
+        super(flag, "integer", value);
     }
 
     @Override
-    public Object convert(String value) {
+    protected Object convertValue(String value) {
         return Integer.parseInt(value);
     }
 }

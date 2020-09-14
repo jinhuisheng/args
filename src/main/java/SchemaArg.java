@@ -2,43 +2,35 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/13.
  */
 public abstract class SchemaArg {
     private final String flag;
     private final String type;
-    final Object defaultValue;
+    private final Object value;
 
-    SchemaArg(String flag, String type, Object defaultValue) {
+    SchemaArg(String flag, String type, Object value) {
         this.flag = flag;
         this.type = type;
-        this.defaultValue = defaultValue;
+        this.value = value;
     }
 
-    String getFlag() {
+    public String getFlag() {
         return flag;
     }
 
-    String getType() {
-        return type;
+    ParsedArg getParsedArg(String value) {
+        return new ParsedArg(this.flag, convert(value), this.type);
     }
 
-    Object convertValue(String value) {
-        if (StringUtils.isBlank(value)) {
-            return defaultValue;
+    protected Object convert(String value) {
+        if (StringUtils.isNotBlank(value)) {
+            return convertValue(value);
+        } else {
+            return this.value;
         }
-        return convert(value);
-//        switch (type) {
-//            case "boolean":
-//                return Boolean.parseBoolean(value);
-//            case "string":
-//                return value;
-//            case "integer":
-//                return Integer.parseInt(value);
-//            default:
-//                return "";
-//        }
     }
 
-    public abstract Object convert(String value);
+    protected abstract Object convertValue(String value);
+
 }

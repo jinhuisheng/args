@@ -1,17 +1,17 @@
 /**
  * @author huisheng.jin
- * @date 2020/1/7.
+ * @date 2020/9/13.
  */
 public class ParsedArg {
-    private String flag;
-    private Object value;
-    private String type;
+    private final String flag;
+    private final Object value;
+    private final String type;
 
-    ParsedArg(String flag, String type, Object value) {
+    public ParsedArg(String flag, Object value, String type) {
 
         this.flag = flag;
-        this.type = type;
         this.value = value;
+        this.type = type;
     }
 
     public Object getValue() {
@@ -25,4 +25,5 @@ public class ParsedArg {
     public String getFlag() {
         return flag;
     }
+
 }
