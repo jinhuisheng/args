@@ -6,7 +6,7 @@ import java.util.List;
  * @date 2020/9/13.
  */
 public class ArgsSeparator {
-    public static List<Arg> separate(String args) {
+    public List<Arg> separate(String args) {
         List<Arg> result = new ArrayList<>();
         String[] array = args.split(" ");
         for (int i = 0; i < array.length; i++) {

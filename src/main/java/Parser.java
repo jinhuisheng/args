@@ -7,14 +7,16 @@ import java.util.List;
  */
 public class Parser {
     private Schema schema;
+    private ArgsSeparator argsSeparator;
     private List<ParsedArg> parsedArgList = new ArrayList<>();
 
     public Parser(Schema schema) {
         this.schema = schema;
+        this.argsSeparator = new ArgsSeparator();
     }
 
     public void parse(String args) {
-        List<Arg> argList = ArgsSeparator.separate(args);
+        List<Arg> argList = argsSeparator.separate(args);
         argList.forEach(this::parseArg);
     }
 
