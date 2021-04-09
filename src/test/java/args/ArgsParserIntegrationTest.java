@@ -1,4 +1,4 @@
-package example;
+package args;
 
 import args.ArgsParser;
 import args.ParseResult;

@@ -1,6 +1,6 @@
 package args;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ArgsParser {
 
@@ -11,15 +11,8 @@ public class ArgsParser {
     }
 
     public ParseResult parse(String args) {
-        ArrayList<ParsedArg> parsedArgs = new ArrayList<>();
-        String flag = args.substring(1);
-        boolean value = getValue(flag);
-        parsedArgs.add(new ParsedArg(flag, value));
-//        -flag value -flag value
-        return new ParseResult(parsedArgs);
+        List<ParsingArg> parsingArgs = new StringParser().parseArgsStr(args);
+        return schema.parseResult(parsingArgs);
     }
 
-    private boolean getValue(String flag) {
-        return schema.getValue(flag);
-    }
 }
