@@ -17,8 +17,8 @@ class SchemaTest {
         definitions.add(new Definition("l", "boolean", true));
         definitions.add(new Definition("t", "boolean", true));
         Schema schema = new Schema(definitions);
-        ParsingArg parsingArg = new ParsingArg("p", null);
-        ParseResult parseResult = schema.parseResult(Arrays.asList(parsingArg));
+        Arg arg = new Arg("p", null);
+        ParseResult parseResult  = schema.parse(Arrays.asList(arg));
         assertThat(parseResult.valueOf("p")).isEqualTo(0);
         assertThat(parseResult.valueOf("l")).isEqualTo(false);
         assertThat(parseResult.valueOf("t")).isEqualTo(false);

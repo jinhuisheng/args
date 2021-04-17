@@ -1,10 +1,10 @@
 package args;
 
-public class ParsingArg {
+public class Arg {
     private final String flag;
     private final String valueStr;
 
-    public ParsingArg(String flag, String valueStr) {
+    public Arg(String flag, String valueStr) {
 
         this.flag = flag;
         this.valueStr = valueStr;

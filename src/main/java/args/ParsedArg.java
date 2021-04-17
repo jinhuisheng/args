@@ -10,7 +10,7 @@ public class ParsedArg {
         this.value = value;
     }
 
-    public Object getFlag() {
+    public String getFlag() {
         return this.flag;
     }
 
