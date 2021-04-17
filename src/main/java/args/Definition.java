@@ -1,14 +1,12 @@
 package args;
 
 
-public class Definition {
+public abstract class Definition {
     private final String flag;
-    private final String type;
-    private final Object defaultValue;
+    protected final Object defaultValue;
 
-    public Definition(String flag, String type, Object defaultValue) {
+    protected Definition(String flag, Object defaultValue) {
         this.flag = flag;
-        this.type = type;
         this.defaultValue = defaultValue;
     }
 
@@ -16,18 +14,9 @@ public class Definition {
         return this.flag;
     }
 
-    public Object getValue(String valueStr) {
-        if (valueStr == null) {
-            return this.defaultValue;
-        }
-        if (type.equals("int")) {
-            return Integer.parseInt(valueStr);
-        } else {
-            return valueStr;
-        }
-    }
+    public abstract Object convert(String valueStr);
 
     public boolean isBoolean() {
-        return type.equals("boolean");
+        return false;
     }
 }

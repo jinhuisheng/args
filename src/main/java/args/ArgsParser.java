@@ -9,7 +9,7 @@ public class ArgsParser {
 
     public ArgsParser(Schema schema) {
         this.schema = schema;
-        argsSeparator = new ArgsSeparator();
+        this.argsSeparator = new ArgsSeparator();
     }
 
     public ParseResult parse(String argsString) {

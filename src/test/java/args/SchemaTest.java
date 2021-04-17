@@ -13,9 +13,9 @@ class SchemaTest {
     @Test
     void should_parse_l_false() {
         List<Definition> definitions = new ArrayList<>();
-        definitions.add(new Definition("p", "int", 0));
-        definitions.add(new Definition("l", "boolean", true));
-        definitions.add(new Definition("t", "boolean", true));
+        definitions.add(new IntegerDefinition("p",0));
+        definitions.add(new BooleanDefinition("l", true));
+        definitions.add(new BooleanDefinition("t", true));
         Schema schema = new Schema(definitions);
         Arg arg = new Arg("p", null);
         ParseResult parseResult  = schema.parse(Arrays.asList(arg));

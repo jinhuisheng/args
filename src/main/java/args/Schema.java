@@ -12,13 +12,13 @@ public class Schema {
     }
 
     public Object getValue(Arg arg) {
-        Definition definition = getDefinition(arg);
-        return definition.getValue(arg.getValueStr());
+        Definition definition = getDefinition(arg.getFlag());
+        return definition.convert(arg.getValueStr());
     }
 
-    private Definition getDefinition(Arg arg) {
+    private Definition getDefinition(String flag) {
         return definitions.stream()
-                .filter(definition -> definition.getFlag().equals(arg.getFlag()))
+                .filter(definition -> definition.getFlag().equals(flag))
                 .findFirst().get();
     }
 
@@ -32,7 +32,9 @@ public class Schema {
     }
 
     private List<ParsedArg> getBooleanDefaultParsedArgs() {
-        return definitions.stream().filter(Definition::isBoolean).map(definition -> new ParsedArg(definition.getFlag(), false)).collect(Collectors.toList());
+        return definitions.stream().filter(Definition::isBoolean)
+                .map(definition -> new ParsedArg(definition.getFlag(), false))
+                .collect(Collectors.toList());
     }
 
     ParseResult parse(List<Arg> args) {

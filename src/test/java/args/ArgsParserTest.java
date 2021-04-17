@@ -11,7 +11,7 @@ public class ArgsParserTest {
     @Test
     void should_parse_arg_l_true_success() {
         List<Definition> definitions = new ArrayList<>();
-        definitions.add(new Definition("l", "boolean", true));
+        definitions.add(new BooleanDefinition("l", true));
         ArgsParser parser = new ArgsParser(new Schema(definitions));
         ParseResult result = parser.parse("-l");
         assertThat(result.valueOf("l")).isEqualTo(true);
@@ -20,8 +20,8 @@ public class ArgsParserTest {
     @Test
     void should_parse_arg_p_success() {
         List<Definition> definitions = new ArrayList<>();
-        definitions.add(new Definition("p", "int", 0));
-        definitions.add(new Definition("l", "boolean", true));
+        definitions.add(new IntegerDefinition("p", 0));
+        definitions.add(new BooleanDefinition("l", true));
         ArgsParser parser = new ArgsParser(new Schema(definitions));
         ParseResult result = parser.parse("-p");
         assertThat(result.valueOf("p")).isEqualTo(0);
@@ -31,7 +31,7 @@ public class ArgsParserTest {
     @Test
     void should_parse_arg_p_with_value_success() {
         List<Definition> definitions = new ArrayList<>();
-        definitions.add(new Definition("p", "int", 0));
+        definitions.add(new IntegerDefinition("p", 0));
         ArgsParser parser = new ArgsParser(new Schema(definitions));
         ParseResult result = parser.parse("-p 8080");
         assertThat(result.valueOf("p")).isEqualTo(8080);
@@ -40,7 +40,7 @@ public class ArgsParserTest {
     @Test
     void should_parse_arg_d_with_value_success() {
         List<Definition> definitions = new ArrayList<>();
-        definitions.add(new Definition("d", "string", ""));
+        definitions.add(new StringDefinition("d",""));
         ArgsParser parser = new ArgsParser(new Schema(definitions));
         ParseResult result = parser.parse("-d /usr/logs");
         assertThat(result.valueOf("d")).isEqualTo("/usr/logs");
@@ -49,7 +49,7 @@ public class ArgsParserTest {
     @Test
     void should_parse_arg_d_without_value_success() {
         List<Definition> definitions = new ArrayList<>();
-        definitions.add(new Definition("d", "string", ""));
+        definitions.add(new StringDefinition("d",""));
         ArgsParser parser = new ArgsParser(new Schema(definitions));
         ParseResult result = parser.parse("-d");
         assertThat(result.valueOf("d")).isEqualTo("");
